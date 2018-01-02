@@ -9,7 +9,7 @@ function getCentralityGraph(keyword, type, reset) {
 		keyword = "cholera puerto rico";
 	}
 	var rootURL = encodeURI(server
-			+ "/RumourFlowNew/rest/RedditData/search/title/" + keyword);
+			+ "/RumourFlow/rest/RedditData/search/title/" + keyword);
 	$.ajax({
 		type : 'GET',
 		url : rootURL,
@@ -100,7 +100,7 @@ function createForceNetwork(type, nodes, edges) {
 	});
 
 	var rootURL = encodeURI(server
-			+ "/RumourFlowNew/rest/RedditData/get/users/" + currentRumourName + "/" + type);
+			+ "/RumourFlow/rest/RedditData/get/users/" + currentRumourName + "/" + type);
 	
 	// var G = new jsnx.cycleGraph();
 	var G;

@@ -1,8 +1,8 @@
 jQuery.noConflict();
 //server
 
-var server = "http://206.12.97.170:8080";
-//var server = "http://localhost:80";
+//var server = "http://206.12.97.170:8080";
+var server = "http://localhost:80";
 //var server = "http://vicg.icmc.usp.br:7103";
 var currentMode = "TITLE";
 
@@ -118,7 +118,7 @@ var force = d3.layout.force().charge(-320).size([ WIDTH, HEIGHT ])
 
 
 var rootURL = encodeURI(server
-		+ "/RumourFlowNew/rest/RedditData/rumour/keyword");
+		+ "/RumourFlow/rest/RedditData/rumour/keyword");
 $.ajax({
 	type : 'GET',
 	url : rootURL,
@@ -318,7 +318,7 @@ function getSubmissions(mode) {
 	var threshold = jQuery(".threshold").val();
 	currentMode = mode;
 	var rootURL = server
-			+ "/RumourFlowNew/rest/RedditData/search/slider/" + mode
+			+ "/RumourFlow/rest/RedditData/search/slider/" + mode
 			+ "/" + threshold;
 	jQuery.ajax({
 		type : 'GET',

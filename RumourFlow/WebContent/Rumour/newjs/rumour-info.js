@@ -45,7 +45,7 @@ function initSubGraph(node){
 	jQuery("#divUser").show();
 	jQuery("#divThres").hide();
 	jQuery("#second").text("Comment Tree");
-  var rootURLSub = server + "/RumourFlowNew/rest/RedditData/search/submission/" + node.redditID;
+  var rootURLSub = server + "/RumourFlow/rest/RedditData/search/submission/" + node.redditID;
   $.ajax({
 		type: 'GET',
 		url: rootURLSub,
@@ -82,7 +82,7 @@ function hasNode(node1, listNodes){
 }
 
 function initSubGraphWithID(redditID){
-	  var rootURLSub = server + "/RumourFlowNew/rest/RedditData/search/submission/" + redditID;
+	  var rootURLSub = server + "/RumourFlow/rest/RedditData/search/submission/" + redditID;
 	  $.ajax({
 			type: 'GET',
 			url: rootURLSub,

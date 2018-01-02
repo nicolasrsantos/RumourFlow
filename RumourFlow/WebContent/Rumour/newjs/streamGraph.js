@@ -985,7 +985,7 @@ function showStreamGraph() {
 	rumourDataList = [];
 	jQuery.each(selectedRumours, function(index, value) {
 		var rootURL = encodeURI(server
-				+ "/RumourFlowNew/rest/RedditData/search/title/"
+				+ "/RumourFlow/rest/RedditData/search/title/"
 				+ value);
 		promises.push(jQuery.ajax({
 			type : 'GET',
@@ -1342,7 +1342,7 @@ function showRumourUserGraph(rumour) {
 	var rumourUser;
 	// load data
 	var rootURL = encodeURI(server
-			+ "/RumourFlowNew/rest/RedditData/search/users/" + rumour);
+			+ "/RumourFlow/rest/RedditData/search/users/" + rumour);
 	promises.push(jQuery.ajax({
 		type : 'GET',
 		url : rootURL,
@@ -1508,7 +1508,7 @@ function showUserGraph() {
 				}
 				
 				var rootURL = encodeURI(server
-						+ "/RumourFlowNew/rest/RedditData/get/users/comments/"
+						+ "/RumourFlow/rest/RedditData/get/users/comments/"
 						+ keyword + "/" + d.user + "/" + d.title);
 				jQuery.ajax({
 					type : 'GET',
@@ -1610,7 +1610,7 @@ function showUserGraph() {
 	// load data
 	jQuery.each(selectedRumours, function(index, value) {
 		var rootURL = encodeURI(server
-				+ "/RumourFlowNew/rest/RedditData/search/title/"
+				+ "/RumourFlow/rest/RedditData/search/title/"
 				+ value);
 		promises.push(jQuery.ajax({
 			type : 'GET',

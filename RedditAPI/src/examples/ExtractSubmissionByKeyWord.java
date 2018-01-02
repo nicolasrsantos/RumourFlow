@@ -182,7 +182,7 @@ public class ExtractSubmissionByKeyWord {
 				Map<String, List<String>> mapUsers1 = new HashMap();
 				Map<String, List<String>> activeUsers = new HashMap();
 				try {
-					json1 = FileUtils.readFileToString(new File(new String("C:\\Users\\Nicolas Roque\\workspace\\RedditAPI\\data\\Obama & Muslimcommnents.json")));
+					json1 = FileUtils.readFileToString(new File(new String("C:\\Users\\Nicolas\\workspace\\RumourFlow\\RedditAPI\\data\\Obama & Muslimcommnents.json")));
 					mapUsers1 = gson1.fromJson(json1, Map.class);
 				} catch (IOException e2) {
 					// TODO Auto-generated catch block
