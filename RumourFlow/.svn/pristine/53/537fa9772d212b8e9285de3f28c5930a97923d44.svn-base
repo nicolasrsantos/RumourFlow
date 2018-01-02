@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1" />
+		<meta name="author" content="www.frebsite.nl" />
+		<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+
+		<title>RumourFlow - Gallery</title>
+		<link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+		<link type="text/css" rel="stylesheet" href="css/style.css" />
+		<link type="text/css" rel="stylesheet" href="css/jquery.mmenu.all.css" />
+		<link type="text/css" rel="stylesheet" href="css/jquery.mobile-1.0rc2.min.css" >
+		<link type="text/css" rel="stylesheet" href="css/photoswipe/photoswipe.css" />
+		
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/photoswipe/klass.min.js"></script>
+		<script type="text/javascript" src="js/jquery.mmenu.min.all.js"></script>
+		<script type="text/javascript" src="js/photoswipe/code.photoswipe.jquery-3.0.4.min.js"></script>
+		<script type="text/javascript" src="js/o-script.js"></script>
+
+	</head>
+	<body class="o-page">
+		<div id="page">
+			<div id="header">
+				<a href="#menu" rel="external"></a>
+				<span id="Logo" class="svg">
+					<img src="img/logo.svg" />
+				</span>
+				<a class="backBtn" href="javascript:history.back();"></a>
+			</div>
+			<div class="subHeader"><i class="i-gallery i-small"></i>RumourFlow / Gallery</div>
+			<div id="content">
+				<h3 class="title">Gallery</h3>
+				<p><span class="c-red">Rumour gallery collection</span></p>
+				<div id="Gallery">
+					<div class="gallery-row">
+				
+						<div class="gallery-item big-item">
+							<a href="img/gallery/1.png" rel="external">
+								<img src="img/gallery/1.png" alt="Image 001" />
+							</a>
+						</div>
+						<div class="gallery-item big-item">
+							<a href="img/gallery/2.png" rel="external">
+								<img src="img/gallery/2.png" alt="Image 002" />
+							</a>
+						</div>
+						
+						<div class="gallery-item big-item">
+							<a href="img/gallery/3.png" rel="external">
+								<img src="img/gallery/3.png" alt="Image 001" />
+							</a>
+						</div>
+						<div class="gallery-item big-item">
+							<a href="img/gallery/4.png" rel="external">
+								<img src="img/gallery/4.png" alt="Image 002" />
+							</a>
+						</div>			
+						
+							<div class="gallery-item big-item">
+							<a href="img/gallery/5.png" rel="external">
+								<img src="img/gallery/5.png" alt="Image 001" />
+							</a>
+						</div>
+						<div class="gallery-item big-item">
+							<a href="img/gallery/6.png" rel="external">
+								<img src="img/gallery/6.png" alt="Image 002" />
+							</a>
+						</div>				
+							
+					</div>
+				</div>
+				
+			</div>
+			
+			<div class="subFooter">Copyright 2015. All rights reserved.</div>
+			<nav id="menu">
+				<ul>
+					<li class="Selected">
+						<a href="index.html">
+							<i class="i-home i-small"></i>Home
+						</a>
+					</li>					
+					<li>
+						<a href="#" onclick="window.location.replace('gallery.html')">
+							<i class="i-gallery i-small"></i>Gallery
+						</a>
+					</li>				
+					<li>
+						<a href="#" onclick="window.location.replace('about.html')">
+							<i class="i-about i-small"></i>About
+						</a>
+					</li>
+					<li>
+						<a href="#" onclick="window.location.replace('contact.html')">
+							<i class="i-contact i-small"></i>Contact
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</body>
+</html>

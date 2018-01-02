@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Nicolas Roque/workspace/TwitterAPI/jar/java-json.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nicolas Roque/workspace/TwitterAPI/jar/commons-io-2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nicolas Roque/workspace/TwitterAPI/jar/commons-io-2.5-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nicolas Roque/workspace/RedditAPI/libs/gson-2.1.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RedditAPI"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/sentiment"/>
+	<classpathentry kind="lib" path="C:/Users/Nicolas Roque/Downloads/twitter4j/lib/twitter4j-core-4.0.4.jar" sourcepath="D:/Downloads/Bagunça/twitter4j-4.0.4 (1)/twitter4j-stream/twitter4j-stream-4.0.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nicolas Roque/Downloads/mongo-java-driver-3.5.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nicolas Roque/Downloads/twitter4j/lib/twitter4j-stream-4.0.4.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/GTM"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/RumourFlow"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

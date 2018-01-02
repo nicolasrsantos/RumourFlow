@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1" />
+		<meta name="author" content="www.frebsite.nl" />
+		<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+
+		<title>RumourFlow - Home</title>
+		<link href="img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+
+		<link type="text/css" rel="stylesheet" href="css/flexslider.css" />
+		<link type="text/css" rel="stylesheet" href="css/jquery.mmenu.all.css" />
+		<link type="text/css" rel="stylesheet" href="css/style.css" />
+		<link type="text/css" rel="stylesheet" href="jquery-mobile/jquery.mobile-1.4.5.css" />
+		<link type="text/css" rel="stylesheet" href="fonts/css/font-awesome.css" />
+		
+		<!-- custom css -->
+		<link href="newcss/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" href="newcss/rumour-network.css" />
+		<link rel="stylesheet" href="newcss/rumour-info.css" />
+		<link rel="stylesheet" href="newcss/rickshaw.min.css" />
+		
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.mmenu.min.all.js"></script>
+		<script type="text/javascript" src="js/jquery.flexslider.js"></script>
+		<script type="text/javascript" src="js/o-script.js"></script>
+		
+		<!-- custom js -->
+		<script src="newjs/knockout-3.3.0.js" type="text/javascript"></script>
+		<script src="jquery/jquery-1.11.3.js" type="text/javascript"></script>
+		<script src="jquery-mobile/jquery.mobile-1.4.5.js" type="text/javascript"></script>
+		<script src="newjs/colorbrewer.v1.min.js"></script>
+		<script src="d3/d3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="newjs/fisheye.js" type="text/javascript"></script>
+		<script src="newjs/d3.tip.v0.6.3.js" type="text/javascript"></script>		
+		<script type="text/javascript" src="newjs/forceedgebundle.js"></script>
+		<script src="newjs/jsnetworkx.js" type="text/JavaScript"></script>
+		<script src="newjs/rumour-network.js" type="text/javascript"></script>
+		<script src="newjs/rumour-info.js" type="text/javascript"></script>
+		<script src="newjs/streamGraph.js" type="text/javascript"></script>
+		<script src="newjs/usergraph.js" type="text/JavaScript"></script>
+		<script src="newjs/d3.layout.cloud.js" type="text/javascript"></script>
+		<script src="newjs/snopes.js" type="text/javascript"></script>
+		<script src="lib/bootstrap.js"></script>
+		<script src="newjs/sankey.js"></script>
+		<script src="newjs/sankeyGraph.js"></script>
+		
+	</head>
+	<body class="o-page">
+		<div id="page">
+			<!-- Header -->
+			<div id="header">
+				<a href="#menu"></a>
+				<span id="Logo" class="svg">
+					
+				</span>
+				<a class="backBtn" href="javascript:history.back();"></a>
+			</div>
+			<div class="subHeader">							
+				<i class="i-home i-small"></i>Welcome to RumourFlow! 
+			</div>
+						
+			<!-- content -->	
+			<div class="rwrap">
+			    <div class="rrow">			    	
+			        <div style="text-align:center;background-color:#66CCFF;margin-top:0px" class="rleft">
+			        	<input type="button" id="edgeBundle" class="toggleButton" onclick="ebundle = !ebundle;getCentralityGraph('Obama & Muslim',0,true);" style="background: black; color: white;" value="Toogle Edge Bundle"/> <span class="stittle" id="main">Rumour Flow</span><input type="button" id="btndataset" class="btndataset" onclick="showDatasetOption();" style="background: black; color: white;" value="Dataset"/>
+			        </div>
+			        <div style="text-align:center;background-color:#33CCCC" class="rright">
+			            <h1>Topic Cloud</h1>
+			        </div>
+			    </div>
+			</div>
+			<div class="rwrap">
+			    <div class="rrow">			    	
+			        <div class="rleft">
+			        	<input type="search" name="search-top-user" id="search-top-user" value="" />			        				        	 
+			        </div>
+			        <div class="rright">			            
+			        </div>
+			    </div>
+			</div>
+			<div class="rwrap">
+			    <div class="rrow">			    	
+			        <div id="rumourNetwork" class="rleft">			        	
+			        </div>
+			        <div id="topicCloud" class="rright">
+			        </div>
+			    </div>
+			</div>
+			<div class="rwrap">
+			    <div class="rrow">			    	
+			        <div style="text-align:center;background-color:#66CCFF" class="rleft">
+			        	<span class="stittle" id="second">Topic Flow</span><input type="button" id="btnReset" class="btndataset" style="background: black; color: white;" value="Reset"/>			        	
+			        </div>			        
+			        <div style="text-align:center;background-color:#33CCCC" class="rright">
+			            <h1>Word Cloud</h1>
+			        </div>
+			    </div>
+			</div>
+			<div class="rwrap">
+			    <div class="rrow">			    	
+			        <div class="rleft">
+						<span id="divUser">
+			        		<input type="search" name="search-user" id="search-user" value=""/>
+			        	</span>
+			        	<span id="divThres">
+			        	<input type="range" min="0" max="1" step="0.1" value="0"
+								id="tthreshold" name="tthreshold" class="tthreshold"/>
+						</span>			
+						<span id="divUserCount">
+			        	<input type="range" min="0" max="50" step="1" value="1"
+								id="thresholdUserCount" name="thresholdUserCount" class="thresholdUserCount"/>
+						</span>	        						        				        
+			        </div>
+			        <div class="rright">			            
+			        </div>
+			    </div>
+			</div>
+			<div class="rwrap">
+			    <div class="rrow">
+			        <div id="details" class="rleft">
+			        
+			        </div>
+			        <div id="wordCloud" class="rright">			            
+			        </div>
+			    </div>
+			</div>
+
+		
+			<!-- Menu navigation -->
+			<nav id="menu">
+				<ul>
+					<li class="Selected">
+						<a href="index.html">
+							<i class="i-home i-small"></i>Home
+						</a>
+					</li>					
+					<li>
+						<a href="#">
+							<i class="i-blog i-small"></i>Data
+						</a>
+						<ul>
+							<li><a href="#">Live Data</a></li>
+							<li>
+								<a href="#">Local Data</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">
+							<i class="i-shortcodes i-small"></i>Visualization
+						</a>
+						<ul>
+							<li><a onclick="showStream();" href="#">Rumour Stream</a></li>
+							<li>
+								<a onclick="showUsers();" href="#">User Graph</a>
+							</li>
+							<li>
+								<a onclick="showGraph();" href="#">Submission Graph</a>
+							</li>
+						</ul>
+					</li>
+						<li>
+						<a href="#">
+							<i class="i-shortcodes i-small"></i>Properties
+						</a>
+						<ul>
+							<li><label for="slider-fill">GTM submission
+									threshold</label> <input type="range" min="0" max="1" step="0.1"
+								id="threshold" name="threshold" class="threshold"></li>
+							<li><label for="slider-fill">GTM comment threshold</label> <input
+								type="range" min="0" max="1" step="0.1" id="cThreshold"
+								name="cThreshold" class="cThreshold"></li>
+							<li><label for="slider-fill">Edge Bundle</label> <input
+								type="range" min="0" max="1" step="0.1" id="eThreshold" data-bind="enable: ebundle"
+								name="eThreshold" class="eThreshold"></li>
+						</ul>						
+					</li>
+					<li>
+						<a href="#" onclick="window.location.replace('gallery.html')">
+							<i class="i-gallery i-small"></i>Gallery
+						</a>
+					</li>				
+					<li>
+						<a href="#" onclick="window.location.replace('about.html')">
+							<i class="i-about i-small"></i>About
+						</a>
+					</li>
+					<li>
+						<a href="#" onclick="window.location.replace('contact.html')">
+							<i class="i-contact i-small"></i>Contact
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+
+		<div id="colors" class="color"></div>
+		<div id="streamSelection" class="selectionStream">
+			<a href="#" onclick="closeSelect(this);" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext">Close</a>
+			<select name="selectOption" onchange="getStreamOption(this);" id="selectOption" data-theme="b" data-overlay-theme="d" data-native-menu="false">
+				  <option value="" disabled selected>Select An Option</option>
+				  <option value="hideAll">Reset</option>
+				  <option value="rumourShowUsers">Show Users</option>
+				  <option value="rumourTopics">Show Topics</option>
+			</select>
+		</div>
+		<div id="userSelection" class="selectionStream" data-role="fieldcontain">
+			<a href="#" onclick="closeSelect(this);" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext">Close</a>
+			<select name="userOption" onchange="getUserOption(this);" id="userOption" data-theme="b" data-overlay-theme="d" data-native-menu="false">
+				  <option value="" disabled selected>Select An Option</option>
+				  <option value="rumourUserBetweeness" selected>Betweeness</option>
+				  <option value="rumourUserCloseness">Closeness</option>				  
+				  <option value="rumourUserCommunity">Community</option>
+			</select>
+		</div>
+		<div id="dataset" class="selectionStream" data-role="fieldcontain">
+			<a href="#" onclick="closeSelect(this);" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext">Close</a>
+			<select name="dsOption" multiple="multiple" onchange="getDatasetOption(this);" id="dsOption" data-theme="b" data-overlay-theme="d" data-native-menu="false">
+				  <option value="" disabled>Select An Option</option>
+				  <option value="Obama & Muslim" selected>Obama & Muslim</option>
+				  <option value="9-11 & Conspiracy" selected>9-11 & Conspiracy</option>
+				  <option value="Blatter & Corruption" selected>Blatter & Corruption</option>
+				  <option value="HIV & Cancer" selected>HIV & Cancer</option>				  
+				  <option value="Bush & IQ">Bush & IQ</option>				  
+				  <option value="Palin & Divorce">Palin & Divorce</option>
+				  <option value="Bush & WMD">Bush & WMD</option>				  
+				  <option value="MH370 & Conspiracy">MH370 & Conspiracy</option>
+			</select>
+		</div>
+		<div id="commentSelection" class="selectionDetails" data-role="fieldcontain">
+			<a href="#" onclick="closeSelect(this);" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext">Close</a>
+			<select name="commentSelection" onchange="getCommentOption(this);" id="commentSelection" data-theme="b" data-overlay-theme="d" data-native-menu="false">
+				  <option value="" disabled selected>Select An Option</option>
+				  <option value="modeGeneral">General</option>
+				  <option value="modeColor">Semantic Similarity Coding</option>
+				  <option value="modeTree">Tree</option>
+				  <option value="modeEvolution">Evolution</option>
+				  <option value="modeCount">User Count</option>
+				  <option value="modeShowComment">User Comment</option>
+			</select>
+		</div>		
+		<script src="newjs/wordCloud.js" type="text/javascript"></script>
+		<script src="newjs/main.js" type="text/javascript"></script>
+	</body>
+</html>
