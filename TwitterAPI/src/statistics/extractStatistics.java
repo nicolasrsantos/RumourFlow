@@ -7,6 +7,9 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +22,7 @@ import org.json.JSONObject;
 
 import com.github.jreddit.entity.Submission;
 import com.github.jreddit.memes.MemesJSON;
+import com.github.jreddit.memes.Nodes;
 import com.google.gson.Gson;
 
 import Utils.PropertyUtils;
@@ -74,6 +78,9 @@ public class extractStatistics
 		Map<String, Integer> sentimentMap = new HashMap<String, Integer>();
 		
 		averageSum = averageSumWords = negative = positive = neutral = 0;
+		ArrayList medianVec = new ArrayList<Integer>();
+		ArrayList medianWordVec = new ArrayList<Integer>();
+		Integer i = 0;
 		
 		for (Tweet tweet : tweets)
 		{
@@ -85,14 +92,26 @@ public class extractStatistics
 					uniqueUsers.add(tweet.getUser().getScreenName());
 				
 				if (tweet.getTweet().length() > 140)
+				{
 					averageSum += 140;
+					medianVec.add(140);
+				}
 				else
+				{
 					averageSum += tweet.getTweet().length();
+					medianVec.add(tweet.getTweet().length());
+				}
 				
 				if (countWords(tweet.getTweet()) == 2)
+				{
 					averageSumWords += 1;
+					medianWordVec.add(1);
+				}
 				else
+				{
 					averageSumWords += countWords(tweet.getTweet());
+					medianWordVec.add(countWords(tweet.getTweet()));
+				}
 				
 				Integer index = checkIfExistMap(map, tweet.getUser().getScreenName()); 
 				if (index != -1)
@@ -137,6 +156,7 @@ public class extractStatistics
 				sentimentMap.put(sentiment, sentimentMap.get(sentiment) + 1);
 			else
 				sentimentMap.put(sentiment, 1);*/
+			i++;
 		}
 		
 		if (mostRetweetedCount != null)
@@ -165,7 +185,7 @@ public class extractStatistics
 		System.out.println("Negative: " + negative);
 		System.out.println("Neutral: " + neutral);*/
 		
-		for (MapUsers user : map)
+		/*for (MapUsers user : map)
 			if (user.getTweetAmmount() > mostActiveUserCount)
 				mostActiveUserCount = user.getTweetAmmount();
 		
@@ -202,11 +222,41 @@ public class extractStatistics
 			}
 		}
 		System.out.println(averageSum / sum);
-		System.out.println(averageSumWords / sum);
+		System.out.println(averageSumWords / sum);*/
 		/*for (String key : sentimentMap.keySet())
 		{
 			System.out.println(key + " " + sentimentMap.get(key));
 		}*/
+		
+		Collections.sort(medianVec, new Comparator<Integer>() {
+	        @Override
+	        public int compare(Integer a, Integer b)
+	        {
+
+	            return  a.compareTo(b);
+	        }
+	    });
+		
+		Collections.sort(medianWordVec, new Comparator<Integer>() {
+	        @Override
+	        public int compare(Integer a, Integer b)
+	        {
+
+	            return  a.compareTo(b);
+	        }
+	    });
+		
+		
+		if (medianVec.size() % 2 == 0)
+		{
+			System.out.println("Median char: " + medianVec.get(medianVec.size() / 2) + " " + medianVec.get(medianVec.size() / 2 - 1));
+			System.out.println("Median word: " + medianWordVec.get(medianWordVec.size() / 2) + " " + medianWordVec.get(medianWordVec.size() / 2 - 1));
+		}
+		else
+		{
+			System.out.println("Median char: " + medianVec.get(medianVec.size() / 2));
+			System.out.println("Median word: " + medianWordVec.get(medianWordVec.size() / 2));
+		}
 	}
 
 	public static void extract(String dir, String keyword) throws IOException, JSONException
@@ -239,7 +289,7 @@ public class extractStatistics
 		getUniqueUserSize(tweets);
 	}
 	
-	public static void main(String[] args) throws Exception
+	public static void twitter () throws IOException, JSONException
 	{
 		//String keyword = "papers global warming myth";
 		//String keyword = "trump biggest tax cut";
@@ -247,5 +297,85 @@ public class extractStatistics
 		String keyword = "Cholera Puerto Rico";
 		String inputDir = new StringBuilder().append(PropertyUtils.getCommentPath()).toString();
 		extract(inputDir, keyword);
+	}
+	
+	public static void reddit () throws IOException
+	{
+		Gson gson = new Gson();
+		String json;
+		String currentRumor = "cholera_puerto_rico\\";
+		
+		File folder = new File(PropertyUtils.getCommentPath() + "\\reddit\\" + currentRumor);
+		String[] files  = folder.list();
+		
+		Integer i, numberOfPosts;
+		i = numberOfPosts = 0;
+		
+		ArrayList<Integer> medianChar, medianWord;
+		medianChar = new ArrayList<Integer>();
+		medianWord = new ArrayList<Integer>();
+		
+		for (String file : files)
+		{
+			if (file.endsWith(".json") && file.startsWith("t3"))
+			{
+				json = FileUtils.readFileToString(new File(PropertyUtils.getCommentPath() + "\\reddit\\" + currentRumor + file));
+				MemesJSON memes = gson.fromJson(json, MemesJSON.class);
+				
+				for (Nodes node : memes.getNodes())
+				{
+					if (i == 0)
+					{
+						medianChar.add(node.getTitle().length());
+						medianWord.add(countWords(node.getTitle()));
+						i++;
+					}
+					else
+					{
+						medianChar.add(node.getLabel().length());
+						medianWord.add(countWords(node.getLabel()));
+					}
+				}
+				
+				numberOfPosts += memes.getNodes().size();
+			}
+		}
+		
+		System.out.println("Posts: " + numberOfPosts);
+		
+		Collections.sort(medianChar, new Comparator<Integer>() {
+	        @Override
+	        public int compare(Integer a, Integer b)
+	        {
+
+	            return  a.compareTo(b);
+	        }
+	    });
+		
+		Collections.sort(medianWord, new Comparator<Integer>() {
+	        @Override
+	        public int compare(Integer a, Integer b)
+	        {
+
+	            return  a.compareTo(b);
+	        }
+	    });
+		
+		if (medianChar.size() % 2 == 0)
+		{
+			System.out.println("Median char: " + medianChar.get(medianChar.size() / 2) + " " + medianChar.get(medianChar.size() / 2 - 1));
+			System.out.println("Median word: " + medianWord.get(medianWord.size() / 2) + " " + medianWord.get(medianWord.size() / 2 - 1));
+		}
+		else
+		{
+			System.out.println("Median char: " + medianChar.get(medianChar.size() / 2));
+			System.out.println("Median word: " + medianWord.get(medianWord.size() / 2));
+		}
+	}
+	
+	public static void main(String[] args) throws Exception
+	{
+		//twitter();
+		reddit();
 	}
 }
