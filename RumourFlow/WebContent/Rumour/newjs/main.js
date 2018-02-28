@@ -2,7 +2,7 @@ jQuery.noConflict();
 //server
 
 //var server = "http://206.12.97.170:8080";
-var server = "http://localhost:80";
+var server = "http://localhost:8080";
 //var server = "http://vicg.icmc.usp.br:7103";
 var currentMode = "TITLE";
 
@@ -61,8 +61,10 @@ d3.select("#colors").classed("hidden", true);
 d3.select("#streamSelection").classed("hidden", true);
 d3.select("#userSelection").classed("hidden", true);
 d3.select("#dataset").classed("hidden", true);
+d3.select("#tweetTypeSelection").classed("hidden", true);
 d3.select("#commentSelection").classed("hidden", true);
 d3.select("#edgeBundle").classed("hidden", true);
+d3.select("#tweetType").classed("hidden", true);
 
 // rumour variables
 
@@ -281,6 +283,8 @@ jQuery(document).ready(
 function showStream(){
 	selectionVis = 1;
 	d3.select("#edgeBundle").classed("hidden", true);
+	d3.select("#tweetType").classed("hidden", true);
+	d3.select("#tweetTypeSelection").classed("hidden", true);
 	svg = undefined;
 	jQuery('#centrality').hide();
 	jQuery('#streamg').show();
@@ -291,6 +295,8 @@ function showStream(){
 function showUsers(){
 	selectionVis = 2;
 	d3.select("#edgeBundle").classed("hidden", false);
+	d3.select("#tweetType").classed("hidden", false);
+	d3.select("#btndataset").classed("hidden", true);
 	jQuery('#centrality').show();
 	jQuery('#streamg').hide();
 	centralityType = 0;
@@ -308,6 +314,7 @@ function showUsers(){
 function showGraph(){
 	selectionVis = 3;
 	d3.select("#edgeBundle").classed("hidden", true);
+	d3.select("#tweetType").classed("hidden", true);
 	if (!currentRumourName){	
 		currentRumourName = selectedRumours[0];		
 	}
@@ -473,6 +480,7 @@ function getDatasetOption(selected){
 	});
 	
 	d3.select("#dataset").classed("hidden", true);
+	d3.select("#tweetTypeSelection").classed("hidden", true);
 	d3.select("#rumourNetwork").style("opacity", 1);
 	//clear legend selection
 	
@@ -499,8 +507,42 @@ function showDatasetOption(){
 	//remove all strokes
 	currentRumour = undefined;
 	currentRumourName = undefined;
-	d3.selectAll("rect")
-    .attr("stroke", 1);
+	d3.selectAll("rect").attr("stroke", 1);
+}
+
+function showTweetTypeOption(){
+	d3.select("#tweetTypeSelection").classed("hidden", false);
+	d3.select("#rumourNetwork").style("opacity", 0.3);
+	d3.selectAll("rect").attr("stroke", 1);
+}
+
+function getTweetTypeOption(selected){
+	jQuery( "#tweetTypeOption" ).selectmenu( "disable" );
+
+/*	jQuery.mobile.loading( 'show', {
+		text: 'Waiting',
+		textVisible: true,
+		theme: 'z',
+		html: ""
+	});*/
+	
+	d3.select("#tweetTypeSelection").classed("hidden", true);
+	d3.select("#rumourNetwork").style("opacity", 1);
+	
+	tweetTypes = [];
+	jQuery('#tweetTypeOption > option:selected').each(function() {	    
+	    tweetTypes.push(jQuery(this).val());
+	});
+	
+	//d3.select("#userSelection").classed("hidden", true);
+	d3.select("#rumourNetwork").style("opacity", 1);
+	var value = selected.options[selected.selectedIndex].value;
+	
+	jQuery('#centrality').show();
+	jQuery('#streamg').hide();
+	jQuery("#toggleBundle").show();
+	centralityType = 0;
+	getCentralityGraph(currentRumourName, 0, undefined, tweetTypes);
 }
 
 
@@ -508,6 +550,7 @@ function closeSelect(selected){
 	d3.select("#streamSelection").classed("hidden",true);
 	d3.select("#userSelection").classed("hidden",true);
 	d3.select("#dataset").classed("hidden",true);
+	d3.select("#tweetTypeSelection").classed("hidden",true);
 	d3.select("#commentSelection").classed("hidden",true);
 	d3.select("#rumourNetwork").style("opacity",1);
 	d3.select("#details").style("opacity",1);

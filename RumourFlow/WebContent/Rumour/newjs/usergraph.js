@@ -1,21 +1,20 @@
 var force = undefined;
 var svg = undefined;
 
-function getCentralityGraph(keyword, type, reset) {
+function getCentralityGraph(keyword, type, reset, tweetType) {
 	jQuery("#main").text("User Graph");
 	if (reset && !ebundle)
 		svg = undefined;
 	if (!keyword){
 		keyword = "cholera puerto rico";
 	}
-	var rootURL = encodeURI(server
-			+ "/RumourFlow/rest/RedditData/search/title/" + keyword);
+	var rootURL = encodeURI(server + "/RumourFlow/rest/RedditData/search/title/" + keyword);
 	$.ajax({
 		type : 'GET',
 		url : rootURL,
 		dataType : "json",
 		success : function(data, err) {
-			createNetwork(type, data.userLinks);
+			createNetwork(type, data.userLinks, tweetType);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
 			alert('addWine error: ' + textStatus);
@@ -27,7 +26,7 @@ function onlyUnique(value, index, self) {
 	return self.indexOf(value) === index;
 }
 
-function createNetwork(type, edgelist) {
+function createNetwork(type, edgelist, tweetType) {
 	var nodeHash = {};
 	var edgeHash = {};
 	var nodes = [];
@@ -38,17 +37,30 @@ function createNetwork(type, edgelist) {
 			nodeHash[edge.source] = {
 				id : edge.source,
 				label : edge.source,
-				timestamp: edge.sourceTimestamp
+				timestamp: edge.sourceTimestamp,
+				type : [edge.type]
 			};
-			nodes.push(nodeHash[edge.source]);
+			//nodes.push(nodeHash[edge.source]);
 		}
+		else
+		{
+			if (nodeHash[edge.source]["type"].indexOf(edge.type) == -1)
+				nodeHash[edge.source]["type"].push(edge.type);
+		}
+		
 		if (!nodeHash[edge.target]) {
 			nodeHash[edge.target] = {
 				id : edge.target,
 				label : edge.target,
-				timestamp: edge.targetTimestamp
+				timestamp: edge.targetTimestamp,
+				type : [edge.type]
 			};
-			nodes.push(nodeHash[edge.target]);
+			//nodes.push(nodeHash[edge.target]);
+		}
+		else
+		{
+			if (nodeHash[edge.target]["type"].indexOf(edge.type) == -1)
+				nodeHash[edge.target]["type"].push(edge.type);
 		}
 		
 		if (edge.source != edge.target)
@@ -62,13 +74,17 @@ function createNetwork(type, edgelist) {
 			});
 		}
 	});
-	createForceNetwork(type, nodes, edges);
+	
+	var nodeHashKeys = Object.keys(nodeHash);
+	for (var i = 0; i < nodeHashKeys.length; i++)
+		nodes.push(nodeHash[nodeHashKeys[i]]);
+	
+	createForceNetwork(type, nodes, edges, tweetType);
 }
 
-function createForceNetwork(type, nodes, edges) {
+function createForceNetwork(type, nodes, edges, tweetType) {
 	if (ebundle){
-		var fbundling = d3.ForceEdgeBundling().nodes(force.nodes()).edges(
-				force.links());
+		var fbundling = d3.ForceEdgeBundling().nodes(force.nodes()).edges(force.links());
 		var results = fbundling();
 
 		var d3line = d3.svg.line().x(function(d) {
@@ -87,8 +103,7 @@ function createForceNetwork(type, nodes, edges) {
 		return;
 	}
 	
-	var fisheye = d3.fisheye.circular()
-    .radius(120);
+	var fisheye = d3.fisheye.circular().radius(120);
 	
 	// create a network from an edgelist
 
@@ -99,8 +114,7 @@ function createForceNetwork(type, nodes, edges) {
 		return [ d.source.id, d.target.id ];
 	});
 
-	var rootURL = encodeURI(server
-			+ "/RumourFlow/rest/RedditData/get/users/" + currentRumourName + "/" + type);
+	var rootURL = encodeURI(server + "/RumourFlow/rest/RedditData/get/users/" + currentRumourName + "/" + type);
 	
 	// var G = new jsnx.cycleGraph();
 	var G;
@@ -138,7 +152,53 @@ function createForceNetwork(type, nodes, edges) {
     		colorByTimestamp(nodes);
     	}
     	
+    	if (tweetType !== undefined || tweetType.length != 0)
+    	{
+    		removeNodesAndEdgesByTweetType(tweetType, G, nodes, edges);
+    	}
+    	
     	return;
+    }
+    
+    function removeNodesAndEdgesByTweetType(tweetType, G, nodes, edges)
+    {
+    	var values = [];
+    	values = Object.values(tweetType);
+    	
+    	// Removing edges
+    	d3.selectAll("path").transition().duration(1000).style("opacity",
+			function(d, index)
+			{
+    			if (edges[index] !== undefined)
+    			{
+    				if (values.indexOf(edges[index].type) != -1)
+    					return "1";
+    				else
+    					return "0";
+    			}
+			}
+    	);
+    	
+    	// Removing nodes
+    	d3.selectAll("circle").transition().duration(1000).style("opacity",
+			function(d, index)
+			{
+    			if (nodes[index] !== undefined)
+				{
+    				// Checking if current node has one of the types that will be displayed
+    				// If node has one of the types, node should be displayed -> return 1;
+    				// else hide node -> return 0;
+    				var containsKey = values.some(function(v){
+    					return nodes[index]["type"].indexOf(v) >= 0;
+    				})
+    				
+    				if (containsKey)
+    					return "1";
+    				else 
+    					return "0";
+				}
+			}
+    	);
     }
     
     function seq_color(from, to, qt)
@@ -212,7 +272,7 @@ function createForceNetwork(type, nodes, edges) {
         				var currentDiff = daydiff(minDate, currentDate);
         				return values[currentDiff / 30];
     				}
-        		);
+        	);
 		}
     	
     	// One color for each year

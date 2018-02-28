@@ -65,7 +65,10 @@
 			<div class="rwrap">
 			    <div class="rrow">			    	
 			        <div style="text-align:center;background-color:#66CCFF;margin-top:0px" class="rleft">
-			        	<input type="button" id="edgeBundle" class="toggleButton" onclick="ebundle = !ebundle;getCentralityGraph('cholera puerto rico',0,true);" style="background: black; color: white;" value="Toogle Edge Bundle"/> <span class="stittle" id="main">Rumour Flow</span><input type="button" id="btndataset" class="btndataset" onclick="showDatasetOption();" style="background: black; color: white;" value="Dataset"/>
+			        	<input type="button" id="edgeBundle" class="toggleButton" onclick="ebundle = !ebundle;getCentralityGraph('cholera puerto rico',0,true);" style="background: black; color: white;" value="Toogle Edge Bundle"/> 
+			        	<span class="stittle" id="main">Rumour Flow</span>
+			        	<input type="button" id="btndataset" class="btndataset" onclick="showDatasetOption();" style="background: black; color: white;" value="Dataset"/>
+			        	<input type="button" id="tweetType" class="btndataset" onclick="showTweetTypeOption();" style="background: black; color: white;" value="Tweet Type"/>
 			        </div>
 			        <div style="text-align:center;background-color:#33CCCC" class="rright">
 			            <h1>Topic Cloud</h1>
@@ -226,6 +229,15 @@
 				  <option value="sandra bullock hillary clinton" selected>sandra bullock hillary clinton</option>
 				  <option value="cholera puerto rico" selected>cholera puerto rico</option>
 				  <option value="papers global warming myth" selected>papers global warming myth</option>				  
+			</select>
+		</div>
+		<div id="tweetTypeSelection" class="selectionStream" data-role="fieldcontain">
+			<a href="#" onclick="closeSelect(this);" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext">Close</a>
+			<select name="tweetTypeOption" multiple="multiple" onchange="getTweetTypeOption(this);" id="tweetTypeOption" data-theme="b" data-overlay-theme="d" data-native-menu="false">
+				  <option value="" disabled>Select An Option</option>
+				  <!-- <option value="normal" selected>Normal Tweets</option> -->
+				  <option value="reply" selected>Replies</option>
+				  <option value="retweet" selected>Retweets</option>
 			</select>
 		</div>
 		<div id="commentSelection" class="selectionDetails" data-role="fieldcontain">
