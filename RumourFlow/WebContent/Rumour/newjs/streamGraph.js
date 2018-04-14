@@ -10,7 +10,7 @@ function showStreamGraph() {
 	keywordsLegend = selectedRumours;
 	linksLegend = selectedRumourLinks;
 	debunkLegend = selectedRumourDebunks;
-	
+
 	jQuery("#main").text("Rumour Stream");
 	var VIZ = {};
 	var margin = {
@@ -35,6 +35,25 @@ function showStreamGraph() {
 					return format(date);
 				});
 	} else {
+		/*
+		 * var longestRumour = undefined; xAxis =
+		 * d3.svg.axis().scale(x).orient("bottom").tickFormat(function(d) { var
+		 * format = d3.time.format("%m/%y");
+		 * 
+		 * var longestRumourFirstDay = new
+		 * Date(rumourDataList[0].submissions[d].created * 1000); if
+		 * (longestRumour === undefined) { for (var i = 1; i <
+		 * rumourDataList.length - 1; i++) if (new
+		 * Date(rumourDataList[i].submissions[0].created * 1000) <
+		 * longestRumourFirstDay) { longestRumourFirstDay = new
+		 * Date(rumourDataList[i].submissions[0].created * 1000); longestRumour =
+		 * i; } }
+		 * 
+		 * var date = new
+		 * Date(rumourDataList[longestRumour].submissions[d].created * 1000);
+		 * 
+		 * return format(date); });
+		 */
 		xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(22);
 	}
 
@@ -53,73 +72,62 @@ function showStreamGraph() {
 			.on("dragend", dragended);
 
 	d3.select("#rumourNetwork").html("");
-		
+
 	var svg = d3.select("#rumourNetwork").append("svg").attr("id", "thesvg")
-			.call(zoom).attr("viewBox", "0 0 " + WIDTH + " " + HEIGHT)
-			.on("contextmenu", function(d, i) {
+			.call(zoom).attr("viewBox", "0 0 " + WIDTH + " " + HEIGHT).on(
+					"contextmenu", function(d, i) {
 						d3.select("#rumourNetwork").style("opacity", 0.4);
 						// show selectionsSqu
 						d3.select("#streamSelection").classed("hidden", false);
 						d3.event.preventDefault();
-					})
-			.on("click",function(d,i){
-				selectedSubmission = undefined;
-				currentRumourName = undefined;
-				selectRumour = undefined;
-				currentRumour = undefined;
-				currentIndex = undefined;
-				
-				svg.selectAll(".streamPath").transition().duration(
-						250).attr("opacity", function(d, j) {
-					return 1;
-				}).attr("stroke-with", function(d, j) {
-					return 1;
-				}).attr("stroke", function(d, j) {
-					return 1;
-				})
-				
-				svg.selectAll(".userStreamPath").transition().duration(
-						250).attr("opacity", function(d, j) {
-					return 1;
-				}).attr("stroke-with", function(d, j) {
-					return 1;
-				}).attr("stroke", function(d, j) {
-					return 1;
-				})
+					}).on(
+					"click",
+					function(d, i) {
+						selectedSubmission = undefined;
+						currentRumourName = undefined;
+						selectRumour = undefined;
+						currentRumour = undefined;
+						currentIndex = undefined;
 
-				// remove other strokes
-				d3.selectAll("rect").attr("stroke", 1);
-				showTopicCloud();
-				
-				// clear users
-				d3
-						.selectAll(".seriesPointsUser")
-						.each(
+						svg.selectAll(".streamPath").transition().duration(250)
+								.attr("opacity", function(d, j) {
+									return 1;
+								}).attr("stroke-with", function(d, j) {
+									return 1;
+								}).attr("stroke", function(d, j) {
+									return 1;
+								})
+
+						svg.selectAll(".userStreamPath").transition().duration(
+								250).attr("opacity", function(d, j) {
+							return 1;
+						}).attr("stroke-with", function(d, j) {
+							return 1;
+						}).attr("stroke", function(d, j) {
+							return 1;
+						})
+
+						// remove other strokes
+						d3.selectAll("rect").attr("stroke", 1);
+						showTopicCloud();
+
+						// clear users
+						d3.selectAll(".seriesPointsUser").each(
 								function() {
-									d3
-											.select(this)
-											.selectAll("text")
-											.each(
-													function(d,
-															i) {
-														d3
-																.select(
-																		this)
-																.text(
-																		function(
-																				d1,
-																				i1) {
-																			return "";
-																		})
-													});
+									d3.select(this).selectAll("text").each(
+											function(d, i) {
+												d3.select(this).text(
+														function(d1, i1) {
+															return "";
+														})
+											});
 								});
-				//clear topic
-				
-				jQuery('.popover').each(function() {
-					jQuery(this).remove();
-				});
-			})
-			.attr("preserveAspectRatio", "xMinYMin meet").append("g")
+						// clear topic
+
+						jQuery('.popover').each(function() {
+							jQuery(this).remove();
+						});
+					}).attr("preserveAspectRatio", "xMinYMin meet").append("g")
 			.attr("transform",
 					"translate(" + margin.left + "," + margin.top + ")");
 
@@ -179,7 +187,7 @@ function showStreamGraph() {
 					created : d[name + "_created"],
 					title : d[name + "_rumour_title"],
 					redditID : d[name + "_reddit_id"],
-					permalink: d[name + "_permalink"]
+					permalink : d[name + "_permalink"]
 				});
 			});
 		});
@@ -226,7 +234,6 @@ function showStreamGraph() {
 				userArr[i].values[j].y = userArr[i].values[j].user_count;
 			}
 		}
-		// move userArr to seriesArr
 
 		y.domain([ 0, d3.max(seriesArr, function(c) {
 			return d3.max(c.values, function(d) {
@@ -289,7 +296,7 @@ function showStreamGraph() {
 							showTopicCloud();
 							showSecondView = true;
 							showCommentCloud(currentRumourName);
-							
+
 							// highlight
 							svg.selectAll(".streamPath").transition().duration(
 									250).attr("opacity", function(d, j) {
@@ -299,15 +306,17 @@ function showStreamGraph() {
 							}).attr("stroke", function(d, j) {
 								return j != i ? 1 : 5;
 							})
-							
-							svg.selectAll(".userStreamPath").transition().duration(
-									250).attr("opacity", function(d, j) {
-								return j != i ? 0.1 : 1;
-							}).attr("stroke-with", function(d, j) {
-								return j != i ? 1 : 5;
-							}).attr("stroke", function(d, j) {
-								return j != i ? 1 : 5;
-							})
+
+							svg.selectAll(".userStreamPath").transition()
+									.duration(250).attr("opacity",
+											function(d, j) {
+												return j != i ? 0.1 : 1;
+											}).attr("stroke-with",
+											function(d, j) {
+												return j != i ? 1 : 5;
+											}).attr("stroke", function(d, j) {
+										return j != i ? 1 : 5;
+									})
 
 							// remove other strokes
 							d3.selectAll("rect").attr("stroke", 1);
@@ -433,6 +442,7 @@ function showStreamGraph() {
 								});
 							}
 							sankey = true;
+							removePopovers();
 							var threshold = $(".tthreshold").val();
 							getSankeyGraph(currentRumourName, threshold);
 							d3.event.stopPropagation();
@@ -465,7 +475,9 @@ function showStreamGraph() {
 		selectionUser.append("path").attr("class", "userStreamPath").attr("d",
 				function(d) {
 					return area(d.values);
-				}).attr("opacity", function(d) {
+				}).attr(
+				"opacity",
+				function(d) {
 					if (currentRumourName != undefined) {
 						if (currentRumourName.toLowerCase().indexOf(
 								d.name.toLowerCase()) >= 0) {
@@ -473,9 +485,9 @@ function showStreamGraph() {
 						} else {
 							return 0.1;
 						}
-		}
-		}).style("fill", function(d, i) {
-			return brewer(d.name.substring(d.name.length-1, d.name.length));
+					}
+				}).style("fill", function(d, i) {
+			return brewer(d.name.substring(d.name.length - 1, d.name.length));
 		}).attr("stroke", "black").on(
 				"mouseover",
 				function(d, i) {
@@ -510,6 +522,7 @@ function showStreamGraph() {
 			showSecondView = true;
 			showCommentCloud(d.values[0].rumour_text);
 			d3.event.stopPropagation();
+			removePopovers();
 		});
 
 		var points = svg.selectAll(".seriesPoints").data(seriesArr).enter()
@@ -524,18 +537,22 @@ function showStreamGraph() {
 			return x(d.label);
 		}).attr("cy", function(d) {
 			return y(d.y0 + d.y);
-		}).attr("r", function(d,i){
-			var sizeScale = d3.scale.linear().domain([ -1, 1 ]).range([ 4, 15 ]);
-			if (typeof d.sentiment != 'undefined' && d.sentiment && d.sentiment !== "NaN"){
-				return sizeScale(d.sentiment);
-			}
-			return "4px";		
-		}).style("fill", function(d) {
+		}).attr(
+				"r",
+				function(d, i) {
+					var sizeScale = d3.scale.linear().domain([ -1, 1 ]).range(
+							[ 4, 15 ]);
+					if (typeof d.sentiment != 'undefined' && d.sentiment
+							&& d.sentiment !== "NaN") {
+						return sizeScale(d.sentiment);
+					}
+					return "4px";
+				}).style("fill", function(d) {
 			return brewer(d.index);
 		}).on("mouseover", function(d) {
-			if (!selectedSubmission){
+			if (!selectedSubmission) {
 				showPopover.call(this, d);
-			}			
+			}
 		}).on("click", function(d) {
 			removePopovers();
 			selectedSubmission = d;
@@ -544,11 +561,11 @@ function showStreamGraph() {
 			showSecondView = true;
 			showCommentCloud(currentRumourName, d.redditID);
 			showPopover.call(this, d);
-			d3.event.stopPropagation();			
+			d3.event.stopPropagation();
 		}).on("mouseout", function(d) {
-			if (!selectedSubmission){
+			if (!selectedSubmission) {
 				removePopovers();
-			}			
+			}
 		})
 
 		// show most active users
@@ -557,129 +574,119 @@ function showStreamGraph() {
 					return "seriesPointsUser " + d.name;
 				});
 
-		pointsUser
-				.selectAll(".seriesPointsUser")
-				.data(function(d) {
-					return d.values;
-				})
-				.enter()
-				.append("text")
-				.attr("class", function(d, i) {
-					return "users " + d.user_name;
-				})
-				.attr('text-anchor', 'bottom')
-//				.attr('dominant-baseline', 'central')
-//				.style('font-family', 'FontAwesome')
-				.attr("dx", function(d) {
-					return x(d.label);
-				})
-				.attr("dy", function(d) {
-					return y(d.y0 + d.y);
-				})
-				.on("mouseover", function(d) {
-					// showPopover.call(this, d);
-				})
-				.on("mouseout", function(d) {
-					// removePopovers();
-				})
-				.on("click", function(d) {
-					selectedUsers.push(d);
-					showUserGraph();
-					showSecondView = true;
-					showCommentCloud(currentRumourName, d.redditID);
-					d3.event.stopPropagation();
-				})
-				.text(
-						function(d, i) {
-//							if (selectionStream == 1) {
-//								for (var k = 0; k < selectedRumours.length; k++) {
-//									if (selectedRumours[k] === d.rumour_text) {
-//										var rdate = new Date(
-//												selectedRumourDebunks[k]);
-//										var subDate = new Date(
-//												d.rumour_created * 1000);
-//										if (rdate >= subDate) {
-//											return "\uf007";
-//										}
-//									}
-//								}
-//							}
-							if (currentRumourName){
-								if (d.rumour_text == currentRumourName){
-									if (selectionStream == 2)
-										return d.user_name;
-									if (selectionStream == 3)
-										return d.topic;
-								}
-							}else{
-								if (selectionStream == 2)
-									return d.user_name;
-								if (selectionStream == 3)
-									return d.topic;
-							}
-							
-						}).style("fill", function(d) {
-					if (selectionStream == 1)
-						return "brown";
-					if (selectionStream == 2 || selectionStream == 3)
-						return "#AF5B5C";
-				}).on("mouseover", function(d, i) {
-					d3.select(this).style("font-weight", "bold");
-				}).on("mouseout", function(d, i) {
-					d3.select(this).style("font-weight", "normal");
-				}).style("font-size", function(d) {
-					return "14px";
-				});
+		pointsUser.selectAll(".seriesPointsUser").data(function(d) {
+			return d.values;
+		}).enter().append("text").attr("class", function(d, i) {
+			return "users " + d.user_name;
+		}).attr('text-anchor', 'bottom')
+		// .attr('dominant-baseline', 'central')
+		// .style('font-family', 'FontAwesome')
+		.attr("dx", function(d) {
+			return x(d.label);
+		}).attr("dy", function(d) {
+			return y(d.y0 + d.y);
+		}).on("mouseover", function(d) {
+			// showPopover.call(this, d);
+		}).on("mouseout", function(d) {
+			// removePopovers();
+		}).on("click", function(d) {
+			selectedUsers.push(d);
+			showUserGraph();
+			showSecondView = true;
+			showCommentCloud(currentRumourName, d.redditID);
+			d3.event.stopPropagation();
+		}).text(function(d, i) {
+			// if (selectionStream == 1) {
+			// for (var k = 0; k < selectedRumours.length; k++) {
+			// if (selectedRumours[k] === d.rumour_text) {
+			// var rdate = new Date(
+			// selectedRumourDebunks[k]);
+			// var subDate = new Date(
+			// d.rumour_created * 1000);
+			// if (rdate >= subDate) {
+			// return "\uf007";
+			// }
+			// }
+			// }
+			// }
+			if (currentRumourName) {
+				if (d.rumour_text == currentRumourName) {
+					if (selectionStream == 2)
+						return d.user_name;
+					if (selectionStream == 3)
+						return d.topic;
+				}
+			} else {
+				if (selectionStream == 2)
+					return d.user_name;
+				if (selectionStream == 3)
+					return d.topic;
+			}
+
+		}).style("fill", function(d) {
+			if (selectionStream == 1)
+				return "brown";
+			if (selectionStream == 2 || selectionStream == 3)
+				return "#AF5B5C";
+		}).on("mouseover", function(d, i) {
+			d3.select(this).style("font-weight", "bold");
+		}).on("mouseout", function(d, i) {
+			d3.select(this).style("font-weight", "normal");
+		}).style("font-size", function(d) {
+			return "14px";
+		});
 
 		drawAxis();
 		drawLegend(selectedRumours);
 	}
 
 	function zoomed() {
-		
-		//var x = d3.scale.ordinal().rangeRoundBands([ 0, width ], 3);
-		
-//	    svg.select("g.x.axis").attr("transform", "translate(" + d3.event.translate[0]+","+(height)+")")
-//	        .call(xAxis.scale(x.range([0, width * d3.event.scale],3 * d3.event.scale)));
-	    
-		var translate = zoom.translate(),
-		scale = zoom.scale();
+
+		// var x = d3.scale.ordinal().rangeRoundBands([ 0, width ], 3);
+
+		// svg.select("g.x.axis").attr("transform", "translate(" +
+		// d3.event.translate[0]+","+(height)+")")
+		// .call(xAxis.scale(x.range([0, width * d3.event.scale],3 *
+		// d3.event.scale)));
+
+		var translate = zoom.translate(), scale = zoom.scale();
 
 		var tx = Math.min(0, Math.max(width * (1 - scale), translate[0]));
-	    var ty = Math.min(0, Math.max(height * (1 - scale), translate[1]));
-		zoom.translate([tx, ty]);
+		var ty = Math.min(0, Math.max(height * (1 - scale), translate[1]));
+		zoom.translate([ tx, ty ]);
 
 		svg.select("g.y.axis").call(yAxis);
-	    
-		try{
+
+		try {
 			svg.selectAll("path").attr("d", function(d) {
 				return area(d.values);
 			});
-		}catch(ex){
+		} catch (ex) {
 			console.log(ex);
-		}		
+		}
 
-		var points = svg.selectAll(".point").attr("cx", function(d) {			
+		var points = svg.selectAll(".point").attr("cx", function(d) {
 			return x(d.label);
 		}).attr("cy", function(d) {
 			return y(d.y0 + d.y);
-		}).attr("r", function(d,i){
-			var sizeScale = d3.scale.linear().domain([ -1, 1 ]).range([ 4, 15 ]);
-			if (typeof d.sentiment != 'undefined' && d.sentiment && d.sentiment !== "NaN"){
-				return sizeScale(d.sentiment);
-			}
-			return "4px";
-		});
-		
-		
-		// show most active users
-		var pointsUser = svg.selectAll(".users")
-				.attr("dx", function(d) {
-					return x(d.label);
-				})
-				.attr("dy", function(d) {
-					return y(d.y0 + d.y);
+		}).attr(
+				"r",
+				function(d, i) {
+					var sizeScale = d3.scale.linear().domain([ -1, 1 ]).range(
+							[ 4, 15 ]);
+					if (typeof d.sentiment != 'undefined' && d.sentiment
+							&& d.sentiment !== "NaN") {
+						return sizeScale(d.sentiment);
+					}
+					return "4px";
 				});
+
+		// show most active users
+		var pointsUser = svg.selectAll(".users").attr("dx", function(d) {
+			return x(d.label);
+		}).attr("dy", function(d) {
+			return y(d.y0 + d.y);
+		});
 	}
 
 	function dragstarted(d) {
@@ -729,17 +736,20 @@ function showStreamGraph() {
 					return brewer(i);
 				})
 				.attr("stroke", "grey")
-				.on("mouseover", function(d, i) {
-					if (!currentRumourName)
-					{
-						showPopoverLegend.call(this, d, i, keywordsLegend, debunkLegend, linksLegend);
-					}
-				})
+				.on(
+						"mouseover",
+						function(d, i) {
+							if (!currentRumourName) {
+								showPopoverLegend.call(this, d, i,
+										keywordsLegend, debunkLegend,
+										linksLegend);
+							}
+						})
 				.on("mouseout", function(d) {
-					if (!currentRumourName)
-					{
+					if (!currentRumourName) {
 						removePopovers();
-					};
+					}
+					;
 				})
 				.on("contextmenu", function(d, i) {
 					d3.select("#rumourNetwork").style("opacity", 0.1);
@@ -757,9 +767,10 @@ function showStreamGraph() {
 							currentRumourName = d;
 							showTopicCloud();
 							showCommentCloud(d);
-							
-							showPopoverLegend.call(this, d, i, keywordsLegend, debunkLegend, linksLegend);
-							
+
+							showPopoverLegend.call(this, d, i, keywordsLegend,
+									debunkLegend, linksLegend);
+
 							// highlight
 							svg.selectAll(".streamPath").transition().duration(
 									250).attr("opacity", function(d, j) {
@@ -769,15 +780,17 @@ function showStreamGraph() {
 							}).attr("stroke", function(d, j) {
 								return j != i ? 1 : 5;
 							})
-							
-							svg.selectAll(".userStreamPath").transition().duration(
-									250).attr("opacity", function(d, j) {
-								return j != i ? 0.1 : 1;
-							}).attr("stroke-with", function(d, j) {
-								return j != i ? 1 : 5;
-							}).attr("stroke", function(d, j) {
-								return j != i ? 1 : 5;
-							})
+
+							svg.selectAll(".userStreamPath").transition()
+									.duration(250).attr("opacity",
+											function(d, j) {
+												return j != i ? 0.1 : 1;
+											}).attr("stroke-with",
+											function(d, j) {
+												return j != i ? 1 : 5;
+											}).attr("stroke", function(d, j) {
+										return j != i ? 1 : 5;
+									})
 
 							// remove other strokes
 							d3.selectAll("rect").attr("stroke", 1);
@@ -907,7 +920,7 @@ function showStreamGraph() {
 					var name = selectedRumours[i];
 					if (currentRumourName === name)
 						return d3.rgb(d.color).darker(20);
-					
+
 				});
 
 		legend.append("text").attr("x", width - 32).attr("y", 6).attr("dy",
@@ -916,7 +929,7 @@ function showStreamGraph() {
 			return name;
 		})
 	}
-	
+
 	function showPopoverLegend(d, i, keywordsLegend, debunkLegend, linksLegend) {
 		jQuery(this).popover(
 				{
@@ -926,8 +939,10 @@ function showStreamGraph() {
 					trigger : 'manual',
 					html : true,
 					content : function() {
-						return  "Rumour: " + keywordsLegend[i] + "<br/>Debunk: " + debunkLegend[i] + "<br/>"
-								+ "Information: <a target=\"_blank\" href=\"" + linksLegend[i] + "\">" + "link</a><br>";
+						return "Rumour: " + keywordsLegend[i] + "<br/>Debunk: "
+								+ debunkLegend[i] + "<br/>"
+								+ "Information: <a target=\"_blank\" href=\""
+								+ linksLegend[i] + "\">" + "link</a><br>";
 					}
 				});
 		jQuery(this).popover('show')
@@ -940,26 +955,38 @@ function showStreamGraph() {
 	}
 
 	function showPopover(d) {
-		jQuery(this).popover(
-				{
-					title : d.text,
-					placement : 'auto top',
-					container : 'body',
-					trigger : 'manual',
-					html : true,
-					content : function() {
-						var format = d3.time.format("%Y-%m-%d %H:%M:%S");
-						var date = new Date(
-								d.created * 1000);
-						
-						return  "Title: " + d.title + "<br/>Comments: "+ d.value + "<br/>" 
-								+ "Created: " + format(date) + "<br/>"
-								+ "Twitter URL: <a target=\"_blank\" href=\"https://www." + d.permalink + "\">" + "link</a><br>";
-						/*return  "Title: " + d.title + "<br/>Comments: "+ d.value + "<br/>" 
-						+ "Created: " + format(date) + "<br/>"
-						+ "Reddit URL: <a target=\"_blank\" href=\"https://www.reddit.com/" + d.redditID.replace("t3_","") + "/" + "\">" + "link</a><br>";*/
-					}
-				});
+		jQuery(this)
+				.popover(
+						{
+							title : d.text,
+							placement : 'auto top',
+							container : 'body',
+							trigger : 'manual',
+							html : true,
+							content : function() {
+								var format = d3.time
+										.format("%Y-%m-%d %H:%M:%S");
+								var date = new Date(d.created * 1000);
+								/*
+								 * return "Title: " + d.title + "<br/>Comments: "+
+								 * d.value + "<br/>" + "Created: " +
+								 * format(date) + "<br/>" + "Twitter URL: <a
+								 * target=\"_blank\" href=\"https://www." +
+								 * d.permalink + "\">" + "link</a><br>";
+								 */
+								return "Title: "
+										+ d.title
+										+ "<br/>Comments: "
+										+ d.value
+										+ "<br/>"
+										+ "Created: "
+										+ format(date)
+										+ "<br/>"
+										+ "Reddit URL: <a target=\"_blank\" href=\"https://www.reddit.com/"
+										+ d.redditID.replace("t3_", "") + "/"
+										+ "\">" + "link</a><br>";
+							}
+						});
 		jQuery(this).popover('show')
 	}
 
@@ -985,8 +1012,7 @@ function showStreamGraph() {
 	rumourDataList = [];
 	jQuery.each(selectedRumours, function(index, value) {
 		var rootURL = encodeURI(server
-				+ "/RumourFlow/rest/RedditData/search/title/"
-				+ value);
+				+ "/RumourFlowNew/rest/RedditData/search/title/" + value);
 		promises.push(jQuery.ajax({
 			type : 'GET',
 			url : rootURL,
@@ -1023,11 +1049,10 @@ function showStreamGraph() {
 				var rumour_name = "rumour" + index;
 				obj[rumour_name] = value.keyword;
 				var rumour_created = "rumour" + index + "_created";
-				if (!value.submissions[i])
-					{
-					 var l = 0;
-					 l++;
-					}
+				if (!value.submissions[i]) {
+					var l = 0;
+					l++;
+				}
 				obj[rumour_created] = value.submissions[i].created;
 				var rumour_comment_count = "rumour" + index + "_comment_count";
 				obj[rumour_comment_count] = value.submissions[i].commentCount;
@@ -1044,7 +1069,7 @@ function showStreamGraph() {
 				obj[rumour_sentiment] = value.sentiments[i];
 				var permalink = "rumour" + index + "_permalink";
 				obj[permalink] = value.submissions[i].permalink;
-				obj.quarter = i;				
+				obj.quarter = i;
 			});
 			fData[i] = obj;
 		}
@@ -1112,16 +1137,15 @@ function showStreamGraph() {
 		// update rumourList and selected rumours
 
 		VIZ.stackChart(fData, fData1, users, 'wiggle');
-		jQuery.mobile.loading( "hide" );
-		jQuery( "#dsOption" ).selectmenu( "enable" );
+		jQuery.mobile.loading("hide");
+		jQuery("#dsOption").selectmenu("enable");
 	});
 }
 
-
-function showRumourUserGraph(rumour) {	
+function showRumourUserGraph(rumour) {
 	jQuery("#divUser").hide();
 	jQuery("#divThres").hide();
-	d3.select("#details").html("");	
+	d3.select("#details").html("");
 	jQuery("#second").text("User Flow");
 	var VIZ = {};
 	var margin = {
@@ -1136,13 +1160,27 @@ function showRumourUserGraph(rumour) {
 
 	var y = d3.scale.linear().rangeRound([ height, 0 ]);
 
-	var xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(
-			function(d) {
-				var format = d3.time.format("%m/%y");
-				var date = new Date(
-						rumourDataList[0].submissions[d].created * 1000);
-				return format(date);
-			});
+	var currentRumour = undefined;
+	for (var i = 0; i < rumourDataList.length; i++) {
+		if (rumourDataList[i].keyword === rumour) {
+			currentRumour = i;
+			break;
+		}
+	}
+
+	var xAxis = d3.svg
+			.axis()
+			.scale(x)
+			.orient("bottom")
+			.tickFormat(
+					function(d) {
+						if (d % 1 === 0 && isNaN(d % 1)) {
+							var format = d3.time.format("%m/%y");
+							var date = new Date(
+									rumourDataList[currentRumour].submissions[d].created * 1000);
+							return format(date);
+						}
+					});
 
 	var yAxis = d3.svg.axis().scale(y).orient("left");
 
@@ -1206,7 +1244,6 @@ function showRumourUserGraph(rumour) {
 			});
 		});
 
-		
 		x.domain(d3.extent(data.map(function(d) {
 			return d.quarter;
 		})));
@@ -1287,7 +1324,7 @@ function showRumourUserGraph(rumour) {
 			d3.select("#rumourNetwork").classed("noselect", true);
 			d3.event.stopPropagation();
 			d3.event.preventDefault();
-		}).on("click", function(d, i) {			
+		}).on("click", function(d, i) {
 			d3.event.stopPropagation();
 		}).style("stroke", function(d, i) {
 		});
@@ -1342,7 +1379,7 @@ function showRumourUserGraph(rumour) {
 	var rumourUser;
 	// load data
 	var rootURL = encodeURI(server
-			+ "/RumourFlow/rest/RedditData/search/users/" + rumour);
+			+ "/RumourFlowNew/rest/RedditData/search/users/" + rumour);
 	promises.push(jQuery.ajax({
 		type : 'GET',
 		url : rootURL,
@@ -1358,7 +1395,7 @@ function showRumourUserGraph(rumour) {
 	jQuery.when.apply(jQuery, promises).then(function() {
 		// process rumour data
 		var fData = [];
-		for (var i = 0; i < submission_count; i++) {
+		for (var i = 0; i < 20; i++) {
 			var obj = new Object();
 			obj.spreader = rumourUser.spreaders[i].length * 2;
 			obj.ignorant = rumourUser.ignorants[i].length;
@@ -1376,9 +1413,9 @@ function showRumourUserGraph(rumour) {
 function showUserGraph() {
 	jQuery("#second").text("User Activity");
 	d3.select("#details").html("");
-	d3.select("#divUserCount").classed("hidden",true);
-	d3.select("#divThres").classed("hidden",true);
-	
+	d3.select("#divUserCount").classed("hidden", true);
+	d3.select("#divThres").classed("hidden", true);
+
 	$("#btnReset").prop('value', 'Reset')
 	var VIZ = {};
 	var margin = {
@@ -1458,7 +1495,7 @@ function showUserGraph() {
 				});
 			})
 		})
-		
+
 		x.domain(d3.extent(calData.map(function(d) {
 			return d.quarter;
 		})));
@@ -1470,61 +1507,83 @@ function showUserGraph() {
 
 		svg.append("g").attr("class", "y axis").call(yAxis).append("text")
 				.attr("transform", "rotate(-90)").attr("y", 6).attr("dy",
-						".71em").style("text-anchor", "end").text("Comment Count");
+						".71em").style("text-anchor", "end").text(
+						"Comment Count");
 
-		data.forEach(function(series, i) {
-			var series = svg.selectAll(".series" + i).data(series).enter()
-					.append("g").attr("class", "series" + i);
+		data
+				.forEach(function(series, i) {
+					var series = svg.selectAll(".series" + i).data(series)
+							.enter().append("g").attr("class", "series" + i);
 
-			series.append("path").attr("class", "line").attr("d", function(d) {
-				return line(d.values);
-			}).style("stroke", function(d, i) {
-				return brewer(i);
-			}).style("stroke-width", "3px").style("fill", "none")
+					series.append("path").attr("class", "line").attr("d",
+							function(d) {
+								return line(d.values);
+							}).style("stroke", function(d, i) {
+						return brewer(i);
+					}).style("stroke-width", "3px").style("fill", "none")
 
-			series.selectAll(".linePoint").data(function(d) {
-				return d.values;
-			}).enter().append("circle").attr("class", "linePoint").attr("cx",
-					function(d) {
-						return x(d.label);
-					}).attr("cy", function(d) {
-				return y(d.value);
-			}).attr("r", "5px").style("fill", function(d, i) {
-				return color(d.user);
-			}).attr("stroke", "grey").style("stroke-width", "1px").on(
-					"mouseover", function(d) {
-						showPopover.call(this, d);						
-					}).on("mouseout", function(d) {
-				removePopovers();
-			}).on("click",function(d,i){
-				//test
-				var keyword = "";
-				if (currentRumourName){
-					keyword = currentRumourName;			
-				}else{
-					selectedRumours.forEach(function(value,index){
-						keyword += value + ",";
-					});
-				}
-				
-				var rootURL = encodeURI(server
-						+ "/RumourFlow/rest/RedditData/get/users/comments/"
-						+ keyword + "/" + d.user + "/" + d.title);
-				jQuery.ajax({
-					type : 'GET',
-					url : rootURL,
-					dataType : "json",
-					success : function(data, err) {
-						// sorted data;
-						showComments.call(this,data, d.user);
-					},
-					error : function(jqXHR, textStatus, errorThrown) {
-						alert('addWine error: ' + textStatus);
-					}
+					series
+							.selectAll(".linePoint")
+							.data(function(d) {
+								return d.values;
+							})
+							.enter()
+							.append("circle")
+							.attr("class", "linePoint")
+							.attr("cx", function(d) {
+								return x(d.label);
+							})
+							.attr("cy", function(d) {
+								return y(d.value);
+							})
+							.attr("r", "5px")
+							.style("fill", function(d, i) {
+								return color(d.user);
+							})
+							.attr("stroke", "grey")
+							.style("stroke-width", "1px")
+							.on("mouseover", function(d) {
+								showPopover.call(this, d);
+							})
+							.on("mouseout", function(d) {
+								removePopovers();
+							})
+							.on(
+									"click",
+									function(d, i) {
+										// test
+										var keyword = "";
+										if (currentRumourName) {
+											keyword = currentRumourName;
+										} else {
+											selectedRumours.forEach(function(
+													value, index) {
+												keyword += value + ",";
+											});
+										}
+
+										var rootURL = encodeURI(server
+												+ "/RumourFlowNew/rest/RedditData/get/users/comments/"
+												+ keyword + "/" + d.user + "/"
+												+ d.title);
+										jQuery.ajax({
+											type : 'GET',
+											url : rootURL,
+											dataType : "json",
+											success : function(data, err) {
+												// sorted data;
+												showComments.call(this, data,
+														d.user);
+											},
+											error : function(jqXHR, textStatus,
+													errorThrown) {
+												alert('addWine error: '
+														+ textStatus);
+											}
+										});
+									})
+
 				});
-			})
-
-		});
 
 		drawAxis();
 		drawLegend(selectedRumours);
@@ -1587,22 +1646,21 @@ function showUserGraph() {
 		jQuery(this).popover('show')
 	}
 
-	function showComments(d,user) {
-		jQuery(this).popover(
-				{
-					title : user + " - " + "Comments",
-					placement : 'auto top',
-					container : 'body',
-					trigger : 'manual',
-					html : true,
-					content : function() {
-						var str = "";
-						for (var i = 0; i< d.length;i++){
-							str += (i+1) + "." + d[i] + "<br>-----------------<br>";
-						}
-						return str;
-					}
-				});
+	function showComments(d, user) {
+		jQuery(this).popover({
+			title : user + " - " + "Comments",
+			placement : 'auto top',
+			container : 'body',
+			trigger : 'manual',
+			html : true,
+			content : function() {
+				var str = "";
+				for (var i = 0; i < d.length; i++) {
+					str += (i + 1) + "." + d[i] + "<br>-----------------<br>";
+				}
+				return str;
+			}
+		});
 		jQuery(this).popover('show');
 	}
 
@@ -1610,8 +1668,7 @@ function showUserGraph() {
 	// load data
 	jQuery.each(selectedRumours, function(index, value) {
 		var rootURL = encodeURI(server
-				+ "/RumourFlow/rest/RedditData/search/title/"
-				+ value);
+				+ "/RumourFlowNew/rest/RedditData/search/title/" + value);
 		promises.push(jQuery.ajax({
 			type : 'GET',
 			url : rootURL,
@@ -1643,7 +1700,8 @@ function showUserGraph() {
 									.forEach(function(user) {
 										rumourDataList
 												.forEach(function(value, index) {
-													// count comments in this submission
+													// count comments in this
+													// submission
 													var count = 0;
 													var name;
 													if (user.user_name) {

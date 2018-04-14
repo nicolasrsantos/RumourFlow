@@ -8,7 +8,7 @@ function getSankeyGraph(keyword, threshold) {
 	if (!keyword){
 		keyword = "cholera puerto rico";
 	}
-	var rootURL = encodeURI(server + "/RumourFlow/rest/RedditData/search/sankey/" + keyword);
+	var rootURL = encodeURI(server + "/RumourFlowNew/rest/RedditData/search/sankey/" + keyword);
 	$.ajax({
 		type : 'GET',
 		url : rootURL,
@@ -32,7 +32,7 @@ function getSankeyUserGraph(keyword, threshold) {
 	if (!keyword){
 		keyword = "cholera puerto rico";
 	}
-	var rootURL = encodeURI(server + "/RumourFlow/rest/RedditData/search/sankey/user/" + keyword + "/" + threshold);
+	var rootURL = encodeURI(server + "/RumourFlowNew/rest/RedditData/search/sankey/user/" + keyword + "/" + threshold);
 	$.ajax({
 		type : 'GET',
 		url : rootURL,

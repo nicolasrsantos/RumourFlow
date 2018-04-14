@@ -2,7 +2,7 @@
 
 function getSubmissionWithUser(data, user) {
 	var rootURL = server
-			+ "/RumourFlow/rest/RedditData/search/slider/" + mode
+			+ "/RumourFlowNew/rest/RedditData/search/slider/" + mode
 			+ "/" + threshold;
 	$.ajax({
 		type : 'GET',
@@ -18,7 +18,7 @@ function getSubmissionWithUser(data, user) {
 // -------------------------------------------------------------------
 function init(keyword) {
 	var rootURL = encodeURI(server
-			+ "/RumourFlow/rest/RedditData/search/title/"
+			+ "/RumourFlowNew/rest/RedditData/search/title/"
 			+ keyword);
 	$.ajax({
 		type : 'GET',

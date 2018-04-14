@@ -1,14 +1,21 @@
 var force = undefined;
 var svg = undefined;
 
+function removePopovers() {
+	jQuery('.popover').each(function() {
+		jQuery(this).remove();
+	});
+}
+
 function getCentralityGraph(keyword, type, reset, tweetType) {
+	removePopovers();
 	jQuery("#main").text("User Graph");
 	if (reset && !ebundle)
 		svg = undefined;
 	if (!keyword){
 		keyword = "cholera puerto rico";
 	}
-	var rootURL = encodeURI(server + "/RumourFlow/rest/RedditData/search/title/" + keyword);
+	var rootURL = encodeURI(server + "/RumourFlowNew/rest/RedditData/search/title/" + keyword);
 	$.ajax({
 		type : 'GET',
 		url : rootURL,
@@ -114,7 +121,7 @@ function createForceNetwork(type, nodes, edges, tweetType) {
 		return [ d.source.id, d.target.id ];
 	});
 
-	var rootURL = encodeURI(server + "/RumourFlow/rest/RedditData/get/users/" + currentRumourName + "/" + type);
+	var rootURL = encodeURI(server + "/RumourFlowNew/rest/RedditData/get/users/" + currentRumourName + "/" + type);
 	
 	// var G = new jsnx.cycleGraph();
 	var G;
@@ -152,10 +159,10 @@ function createForceNetwork(type, nodes, edges, tweetType) {
     		colorByTimestamp(nodes);
     	}
     	
-    	if (tweetType !== undefined || tweetType.length != 0)
+/*    	if (tweetType !== undefined || tweetType.length != 0)
     	{
     		removeNodesAndEdgesByTweetType(tweetType, G, nodes, edges);
-    	}
+    	}*/
     	
     	return;
     }
@@ -329,8 +336,8 @@ function createForceNetwork(type, nodes, edges, tweetType) {
 			}
 		});
 		
-		/*var keyword = "papers global warming myth";
-		var rootURL = encodeURI(server + "/RumourFlowNew/rest/RedditData/post/users/" + keyword + "/" + "1");
+		/*var keyword = "trump biggest tax cut";
+		var rootURL = encodeURI(server + "/RumourFlow/rest/RedditData/post/users/" + keyword + "/" + "1");
 		
 		$.ajax({
 			type : 'POST',
@@ -383,8 +390,8 @@ function createForceNetwork(type, nodes, edges, tweetType) {
 			}
 		});
 		
-		/*var keyword = "papers global warming myth";
-		var rootURL = encodeURI(server + "/RumourFlowNew/rest/RedditData/post/users/" + keyword + "/" + "2");
+		/*var keyword = "sandra bullock hillary clinton";
+		var rootURL = encodeURI(server + "/RumourFlow/rest/RedditData/post/users/" + keyword + "/" + "2");
 		
 		$.ajax({
 			type : 'POST',
@@ -424,8 +431,8 @@ function createForceNetwork(type, nodes, edges, tweetType) {
 			}
 		});
 		
-		/*var keyword = "papers global warming myth";
-		var rootURL = encodeURI(server + "/RumourFlowNew/rest/RedditData/post/users/" + keyword + "/" + "0");
+		/*var keyword = "sandra bullock hillary clinton";
+		var rootURL = encodeURI(server + "/RumourFlow/rest/RedditData/post/users/" + keyword + "/" + "0");
 		
 		$.ajax({
 			type : 'POST',
@@ -476,6 +483,9 @@ function createForceNetwork(type, nodes, edges, tweetType) {
 	    .on("dragend", dragended);
 	svg = d3.select("#rumourNetwork").append("svg").attr("id", "thesvg")
 	.call(zoom)
+	.on("click", function (d) {
+		removePopovers();
+	})
 	.on("contextmenu", function(d, i) {
 				d3.select("#rumourNetwork").style("opacity",0.4);				
 				//show selections
@@ -485,6 +495,7 @@ function createForceNetwork(type, nodes, edges, tweetType) {
 	.attr("viewBox", "0 0 " + WIDTH + " " + HEIGHT)
 			.attr("preserveAspectRatio", "xMinYMin meet")
 			.on("click", function(d, i) {
+				removePopovers();
 				d3.selectAll(".clink").style("opacity", function(d,i){
 					return "1";
 				});
