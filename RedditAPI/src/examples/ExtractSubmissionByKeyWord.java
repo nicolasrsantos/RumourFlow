@@ -1042,8 +1042,7 @@ public class ExtractSubmissionByKeyWord {
 		}
 		
 		try {
-			MemesJSON memes = new MemesJSON(listNodes, listCentNodes, listLinks, listCentLinks, listSubmissions,
-					subreddit);
+			MemesJSON memes = new MemesJSON(listNodes, listCentNodes, listLinks, listCentLinks, listSubmissions, subreddit);
 			String json = gson.toJson(memes);
 			File file3 = new File(PropertyUtils.getCommentPath() + subreddit + ".json");
 			FileUtils.writeStringToFile(file3, json, false);

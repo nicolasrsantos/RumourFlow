@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/jar/java-json.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jar/commons-io-2.5.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/jar/commons-io-2.5-javadoc.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/../RedditAPI/libs/gson-2.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/twitter4j-4.0.4/lib/twitter4j-core-4.0.4.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/mongo-java-driver-3.6.1.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/lib/twitter4j-4.0.4/lib/twitter4j-stream-4.0.4.jar!/" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module-library">
+      <library name="java-json.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jar/java-json.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-io-2.5.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jar/commons-io-2.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-io-2.5-javadoc.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/jar/commons-io-2.5-javadoc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="gson-2.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../RedditAPI/libs/gson-2.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="RedditAPI" />
+    <orderEntry type="module" module-name="sentiment" />
+    <orderEntry type="module-library">
+      <library name="twitter4j-core-4.0.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/twitter4j-4.0.4/lib/twitter4j-core-4.0.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://D:/Downloads/Bagunça/twitter4j-4.0.4 (1)/twitter4j-stream/twitter4j-stream-4.0.4-javadoc.jar" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="mongo-java-driver-3.6.1.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/mongo-java-driver-3.6.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="twitter4j-stream-4.0.4.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/twitter4j-4.0.4/lib/twitter4j-stream-4.0.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="GTM" />
+    <orderEntry type="module" module-name="RumourFlow" />
+  </component>
+</module>

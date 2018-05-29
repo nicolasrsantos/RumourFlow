@@ -455,6 +455,91 @@ public class SearchTweet implements Runnable
 		mongoClient.close();
 	}
 	
+	public static ArrayList<Status> getDiscussion(Twitter twitter, String screenName, Long id) {
+		ArrayList<Status> replies, all;
+		
+ 		replies = new ArrayList<>();
+		all = new ArrayList<Status>();
+
+	    try {
+	        Query query = new Query("@" + screenName + " since_id:" + id);
+
+	        try {
+	            query.setCount(100);
+	        } catch (Throwable e) {
+	            // enlarge buffer error?
+	            query.setCount(30);
+	        }
+
+	        QueryResult result = twitter.search(query);
+	        
+	        do {
+	            List<Status> tweets = result.getTweets();
+
+	            for (Status tweet : tweets)
+	                if (tweet.getInReplyToStatusId() == id || (tweet.getQuotedStatus() != null && tweet.getQuotedStatusId() == id) || (tweet.getRetweetedStatus() != null &&tweet.getRetweetedStatus().getId() == id))
+	                    replies.add(tweet);
+
+	            query = result.nextQuery();
+
+	            Thread.sleep(5000);
+	            if (query != null) result = twitter.search(query);
+
+	        } while (query != null);
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } catch (OutOfMemoryError e) {
+	        e.printStackTrace();
+	    }
+	    
+	    return replies;
+	}
+	
+	public static void getTweet(ConfigurationBuilder configurationBuilder, String screenName, Long id, String dbName, String collectionName)
+	{
+		Configuration configuration = configurationBuilder.build();
+		TwitterFactory twitterFactory = new TwitterFactory(configuration);
+		Twitter twitter = twitterFactory.getInstance();
+		
+		AccessToken accessToken = new AccessToken("61642611-7s1TG2UixsXtSyTOQkl0e4f1bcYpHPFbZGzirTv4H", "t7iqUkg32d7uy6NgnIrhojxnvDCeI3rfOjm8LY2h7nNBR");
+		twitter.setOAuthAccessToken(accessToken);
+		
+		ArrayList<Status> tweets = new ArrayList<Status>();
+		
+		try {
+			System.out.println("Getting tweet.");
+			tweets.add(getTweet(id.toString(), configuration));
+			
+			System.out.println("Getting discussion.");
+			tweets.addAll(getDiscussion(twitter, screenName, id));
+			
+			if (tweets != null) {
+				System.out.println("Saving tweets to DB.");
+				
+				// Establishing connection to the DB
+				MongoClient mongoClient = new MongoClient();
+				MongoDatabase database = mongoClient.getDatabase(dbName);
+				MongoCollection<Document> collection = database.getCollection(collectionName);
+			    
+				int i = 0;
+			    for (Status status : tweets) {
+			    	collection.insertOne(parseStatus(status));
+			    	System.out.println("Saving tweet number: " + i);
+			    	
+			    	i++;
+			    }
+			    
+				mongoClient.close();
+			}
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public static void main(String[] args) throws JSONException, IOException, NumberFormatException, InterruptedException
 	{
 		ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
@@ -465,15 +550,7 @@ public class SearchTweet implements Runnable
 		configurationBuilder.setOAuthAccessToken("61642611-7s1TG2UixsXtSyTOQkl0e4f1bcYpHPFbZGzirTv4H");
 		configurationBuilder.setOAuthAccessTokenSecret("t7iqUkg32d7uy6NgnIrhojxnvDCeI3rfOjm8LY2h7nNBR");
 		configurationBuilder.setJSONStoreEnabled(true);
-		/*
-		Runnable r = new SearchTweet("skt", "twitter", "banco para testes", 50, configurationBuilder);
-		new Thread(r).start();
-	*/
-		//GetTweets("923283615659765762");
-		//ArrayList<Status> lul = getReplies("TSMDoublelift", Long.parseLong("924836493008314368"), configurationBuilder.build());
-		//getRetweets(new Long("925082986730737664"), configurationBuilder);
-		//search();
-		String inputDir = new StringBuilder().append(PropertyUtils.getCommentPath()).toString();
-		enrichTweetsRecursive (inputDir, "sandra bullock hillary clinton", "twitter", "sandra bullock hillary clinton_enriched", configurationBuilder.build());
+		
+		getTweet(configurationBuilder, "realDonaldTrump", new Long("980800783313702918"), "twitter", "global warming trump china");
 	}
 }

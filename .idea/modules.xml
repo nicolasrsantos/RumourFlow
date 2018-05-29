@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/GTM/GTM.iml" filepath="$PROJECT_DIR$/GTM/GTM.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RedditAPI/RedditAPI.iml" filepath="$PROJECT_DIR$/RedditAPI/RedditAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RumourFlow/RumourFlow.iml" filepath="$PROJECT_DIR$/RumourFlow/RumourFlow.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TwitterAPI/TwitterAPI.iml" filepath="$PROJECT_DIR$/TwitterAPI/TwitterAPI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sentiment/sentiment.iml" filepath="$PROJECT_DIR$/sentiment/sentiment.iml" />
+    </modules>
+  </component>
+</project>
