@@ -9,7 +9,6 @@ public class SentimentNode {
 	private String tweet;
 	private String type;
 	private String parentId;
-	private Integer id;
 	private List<SentimentNode> children;
 	
 	public Double getTimestamp() {
@@ -65,23 +64,5 @@ public class SentimentNode {
 	}
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
-	}
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public SentimentNode(Double timestamp, String nickname, String sentiment, String tweet,
-			 List<SentimentNode> children, String type, String parentId, Integer id) {
-		super();
-		this.timestamp = timestamp;
-		this.nickname = nickname;
-		this.sentiment = sentiment;
-		this.tweet = tweet;
-		this.type = type;
-		this.parentId = parentId;
-		this.id = id;
-		this.children = children;
 	}
 }
