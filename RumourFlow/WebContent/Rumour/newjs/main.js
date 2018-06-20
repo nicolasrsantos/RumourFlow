@@ -1,8 +1,8 @@
 jQuery.noConflict();
 //server
 
-var server = "http://206.12.97.170:8080";
-//var server = "http://localhost:80";
+//var server = "http://206.12.97.170:8080";
+var server = "http://localhost:8080";
 //var server = "http://vicg.icmc.usp.br:7103";
 var currentMode = "TITLE";
 
@@ -10,7 +10,7 @@ var currentMode = "TITLE";
 var brewer = d3.scale.quantize().domain([ 0, 8 ]).range(colorbrewer.YlGnBu[8]);
 
 //number of submissions
-var submission_count = 20;
+var submission_count = 7;
 var selectionVis = 1; //1: stream , 2: centrality
 var selectionStream = 1;
 var showSecondView = false;
@@ -118,7 +118,7 @@ var force = d3.layout.force().charge(-320).size([ WIDTH, HEIGHT ])
 		});
 
 var rootURL = encodeURI(server
-		+ "/RumourFlowNew/rest/RedditData/rumour/keyword");
+		+ "/RumourFlow/rest/RedditData/rumour/keyword");
 $.ajax({
 	type : 'GET',
 	url : rootURL,
@@ -323,7 +323,7 @@ function getSubmissions(mode) {
 	var threshold = jQuery(".threshold").val();
 	currentMode = mode;
 	var rootURL = server
-			+ "/RumourFlowNew/rest/RedditData/search/slider/" + mode
+			+ "/RumourFlow/rest/RedditData/search/slider/" + mode
 			+ "/" + threshold;
 	jQuery.ajax({
 		type : 'GET',

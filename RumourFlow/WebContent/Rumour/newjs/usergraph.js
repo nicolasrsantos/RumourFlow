@@ -15,7 +15,7 @@ function getCentralityGraph(keyword, type, reset, tweetType) {
 	if (!keyword){
 		keyword = "cholera puerto rico";
 	}
-	var rootURL = encodeURI(server + "/RumourFlowNew/rest/RedditData/search/title/" + keyword);
+	var rootURL = encodeURI(server + "/RumourFlow/rest/RedditData/search/title/" + keyword);
 	$.ajax({
 		type : 'GET',
 		url : rootURL,
@@ -121,7 +121,7 @@ function createForceNetwork(type, nodes, edges, tweetType) {
 		return [ d.source.id, d.target.id ];
 	});
 
-	var rootURL = encodeURI(server + "/RumourFlowNew/rest/RedditData/get/users/" + currentRumourName + "/" + type);
+	var rootURL = encodeURI(server + "/RumourFlow/rest/RedditData/get/users/" + currentRumourName + "/" + type);
 	
 	// var G = new jsnx.cycleGraph();
 	var G;
@@ -355,6 +355,7 @@ function createForceNetwork(type, nodes, edges, tweetType) {
 		
 		d3.selectAll("circle").transition().duration(1000).style("fill",
 				function(d, index) {
+					console.log(d.id + " - " + cent[index]);
 					var tmax = Math.max.apply(null, cent) * 1.0;
 					if (tmax == 0) {
 						tmax = 1.0;
@@ -455,6 +456,7 @@ function createForceNetwork(type, nodes, edges, tweetType) {
 				function(d) {
 					return brewer(currentIndex);
 				}).attr("r", function(d) {
+					console.log(d.id + " - " + betweenness[d.id]);
 			return sizeScale(betweenness[d.id]);
 		});
 	}

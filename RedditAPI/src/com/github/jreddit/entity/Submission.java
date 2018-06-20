@@ -144,7 +144,7 @@ public class Submission extends Thing {
 	{
 		super(socialnetwork + "_" + id);
 	}
-	
+
     public Submission(JSONObject obj) {
     	super(safeJsonToString(obj.get("name")));
 

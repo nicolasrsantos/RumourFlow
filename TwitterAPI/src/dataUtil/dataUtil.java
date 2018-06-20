@@ -19,6 +19,9 @@ import com.google.gson.Gson;
 
 import Utils.PropertyUtils;
 import sentiment.SentimentString;
+import com.github.jreddit.*;
+import com.github.jreddit.entity.Submission;
+import com.github.jreddit.entity.User;
 
 public class dataUtil
 {

@@ -1012,7 +1012,7 @@ function showStreamGraph() {
 	rumourDataList = [];
 	jQuery.each(selectedRumours, function(index, value) {
 		var rootURL = encodeURI(server
-				+ "/RumourFlowNew/rest/RedditData/search/title/" + value);
+				+ "/RumourFlow/rest/RedditData/search/title/" + value);
 		promises.push(jQuery.ajax({
 			type : 'GET',
 			url : rootURL,
@@ -1053,6 +1053,9 @@ function showStreamGraph() {
 					var l = 0;
 					l++;
 				}
+				console.log(i);
+				console.log(rumour_created);
+				console.log(value.submissions);
 				obj[rumour_created] = value.submissions[i].created;
 				var rumour_comment_count = "rumour" + index + "_comment_count";
 				obj[rumour_comment_count] = value.submissions[i].commentCount;
@@ -1379,7 +1382,7 @@ function showRumourUserGraph(rumour) {
 	var rumourUser;
 	// load data
 	var rootURL = encodeURI(server
-			+ "/RumourFlowNew/rest/RedditData/search/users/" + rumour);
+			+ "/RumourFlow/rest/RedditData/search/users/" + rumour);
 	promises.push(jQuery.ajax({
 		type : 'GET',
 		url : rootURL,
@@ -1395,7 +1398,7 @@ function showRumourUserGraph(rumour) {
 	jQuery.when.apply(jQuery, promises).then(function() {
 		// process rumour data
 		var fData = [];
-		for (var i = 0; i < 20; i++) {
+		for (var i = 0; i < submission_count; i++) {
 			var obj = new Object();
 			obj.spreader = rumourUser.spreaders[i].length * 2;
 			obj.ignorant = rumourUser.ignorants[i].length;
@@ -1563,7 +1566,7 @@ function showUserGraph() {
 										}
 
 										var rootURL = encodeURI(server
-												+ "/RumourFlowNew/rest/RedditData/get/users/comments/"
+												+ "/RumourFlow/rest/RedditData/get/users/comments/"
 												+ keyword + "/" + d.user + "/"
 												+ d.title);
 										jQuery.ajax({
@@ -1668,7 +1671,7 @@ function showUserGraph() {
 	// load data
 	jQuery.each(selectedRumours, function(index, value) {
 		var rootURL = encodeURI(server
-				+ "/RumourFlowNew/rest/RedditData/search/title/" + value);
+				+ "/RumourFlow/rest/RedditData/search/title/" + value);
 		promises.push(jQuery.ajax({
 			type : 'GET',
 			url : rootURL,

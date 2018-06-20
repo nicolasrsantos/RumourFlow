@@ -182,7 +182,7 @@ public class ExtractSubmissionByKeyWord {
 				Map<String, List<String>> mapUsers1 = new HashMap();
 				Map<String, List<String>> activeUsers = new HashMap();
 				try {
-					json1 = FileUtils.readFileToString(new File(new String("/media/data/workspace/Nicolas/RumourFlow/RedditAPI/data/twitter/cholera puerto ricocommnents.json")));
+					json1 = FileUtils.readFileToString(new File(new String("C:\\Users\\nico\\workspace\\RumourFlow\\RedditAPI\\data\\reddit\\cholera puerto ricocommnents.json")));
 					mapUsers1 = gson1.fromJson(json1, Map.class);
 				} catch (IOException e2) {
 					// TODO Auto-generated catch block
@@ -1071,7 +1071,7 @@ public class ExtractSubmissionByKeyWord {
 		return "";
 	}
 
-	private static boolean checkIfSpreader(List<List<String>> spreaders, String user) {
+	public static boolean checkIfSpreader(List<List<String>> spreaders, String user) {
 		// only check the last submissions
 		int spreader_threshold = 5;
 		for (int k = 0; k < spreader_threshold; k++) {
@@ -1090,7 +1090,7 @@ public class ExtractSubmissionByKeyWord {
 	}
 
 	// use to spread rumour once
-	private static boolean checkIfStifler(List<List<String>> spreaders, String user) {
+	public static boolean checkIfStifler(List<List<String>> spreaders, String user) {
 		// only check the last submissions
 		for (int i = 0; i < spreaders.size(); i++) {
 			List<String> lsUsers = spreaders.get(i);
@@ -1191,6 +1191,23 @@ public class ExtractSubmissionByKeyWord {
 					spreaders_temp.add(spreader_temp);
 				}
 			}
+			
+			for (List<String> list : spreaders) {
+				for (String name : list) {
+					System.out.println(name + ",spreader");
+				}
+			}
+			for (List<String> list : ignorants) {
+				for (String name : list) {
+					System.out.println(name + ",ignorant");
+				}
+			}
+			for (List<String> list : stiflers) {
+				for (String name : list) {
+					System.out.println(name + ",stifler");
+				}
+			}
+			
 			json = gson.toJson(new Spreader(spreaders, ignorants, stiflers));
 			return json;
 		} catch (IOException e1) {

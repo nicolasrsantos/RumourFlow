@@ -1,5 +1,5 @@
 $( document ).ready(function() {
-	var rootURL = server + "/RumourFlowNew/rest/RedditData/search/snopes";
+	var rootURL = server + "/RumourFlow/rest/RedditData/search/snopes";
 	  $.ajax({
 			type: 'GET',
 			url: rootURL,

@@ -10,7 +10,7 @@
 		}
 		if (showSecondView){
 			d3.select("#wordCloud").html("");
-			var rootURL = server + "/RumourFlowNew/rest/RedditData/search/cloud/" + keyword + "/" + redditID;
+			var rootURL = server + "/RumourFlow/rest/RedditData/search/cloud/" + keyword + "/" + redditID;
 			$.ajax({
 				type: 'GET',
 				url: rootURL,
@@ -34,7 +34,7 @@
 		}
 		if (keyword){
 			d3.select("#topicCloud").html("");
-			var rootURL = server + "/RumourFlowNew/rest/RedditData/search/tcloud/" + keyword;
+			var rootURL = server + "/RumourFlow/rest/RedditData/search/tcloud/" + keyword;
 			$.ajax({
 				type: 'GET',
 				url: rootURL,
